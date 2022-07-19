@@ -6,7 +6,7 @@ General purpose of this endeavor is to test already learned concepts and experim
 
 ---
 
-![](./doc/preview/preview.gif)
+![](./doc/preview/preview1.gif)
 
 
 ---
