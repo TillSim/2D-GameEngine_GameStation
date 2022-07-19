@@ -17,17 +17,21 @@ public class Player extends Entity {
 
     private static final Player SINGLETON = new Player();
 
+    public final int screenX , screenY;
+
     private final InputHandler inputHandler;
 
 
     private Player() {
-        super.setX(Core.PANEL_WIDTH/2);
-        super.setY(Core.PANEL_HEIGHT/2);
+        super.mapX = Core.PLAYER_START_X;
+        super.mapY = Core.PLAYER_START_Y;
         super.hitbox = new Rectangle(16 , 32 , 32 , 32);
+        this.screenX = (Core.PANEL_WIDTH / 2) - (Core.TILE_SIZE / 2);
+        this.screenY = (Core.PANEL_HEIGHT / 2) - (Core.TILE_SIZE / 2);
         this.movementSpeed = 2;
         this.direction = "down";
         this.spriteAmount = 9;
-        this.spriteIndex = 0;
+        this.currentSprite = 0;
         this.animationSpeed = 1;
         this.spriteSet = new EntitySpriteSet("player");
         this.inputHandler = InputHandler.getInstance();
@@ -79,24 +83,25 @@ public class Player extends Entity {
             //allow movement when upcoming tiles are NOT solid
             if (!isColliding) {
                 switch (direction) {
-                    case "up" -> setY(getY() - movementSpeed);
-                    case "down" -> setY(getY() + movementSpeed);
-                    case "left" -> setX(getX() - movementSpeed);
-                    case "right" -> setX(getX() + movementSpeed);
+                    case "up" -> mapY -= movementSpeed;
+                    case "down" -> mapY += movementSpeed;
+                    case "left" -> mapX -= movementSpeed;
+                    case "right" -> mapX += movementSpeed;
                 }
             }
 
             //loop through animation
             spriteCounter++;
             if (spriteCounter > (spriteAmount - this.animationSpeed) / movementSpeed) {
-                spriteIndex++;
-                if (spriteIndex >= spriteAmount) {
-                    spriteIndex = 1;
+                currentSprite++;
+                if (currentSprite >= spriteAmount) {
+                    currentSprite = 1;
                 }
                 spriteCounter = 0;
             }
 
-        } else {spriteIndex = 0;}
+        } else {
+            currentSprite = 0;}
 
     }
 
@@ -106,9 +111,9 @@ public class Player extends Entity {
      */
     @Override
     public void draw(Graphics2D graphics2D) {
-        if (spriteSet.getSprite(direction, spriteIndex) != null) {
-            BufferedImage sprite = spriteSet.getSprite(direction, spriteIndex);
-            graphics2D.drawImage(sprite, this.getX(), this.getY(), Core.TILE_SIZE, Core.TILE_SIZE, null);
+        if (spriteSet.getSprite(direction, currentSprite) != null) {
+            BufferedImage sprite = spriteSet.getSprite(direction, currentSprite);
+            graphics2D.drawImage(sprite, this.screenX, this.screenY, Core.TILE_SIZE, Core.TILE_SIZE, null);
         } else {Logger.toStream("failed to get sprite from sprite sheet");}
     }
 

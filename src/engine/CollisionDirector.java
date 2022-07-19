@@ -14,10 +14,10 @@ public abstract class CollisionDirector {
     public static void checkTile(Entity entity) {
         int collisionCandidateA , collisionCandidateB , predictedDistance;
 
-        int boundaryLeft = entity.getX() + entity.hitbox.x;
-        int boundaryRight = entity.getX() + entity.hitbox.x + entity.hitbox.width;
-        int boundaryTop = entity.getY() + entity.hitbox.y;
-        int boundaryBottom = entity.getY() + entity.hitbox.y + entity.hitbox.height;
+        int boundaryLeft = entity.mapX + entity.hitbox.x;
+        int boundaryRight = entity.mapX + entity.hitbox.x + entity.hitbox.width;
+        int boundaryTop = entity.mapY + entity.hitbox.y;
+        int boundaryBottom = entity.mapY + entity.hitbox.y + entity.hitbox.height;
 
         int predictedTileLeft = boundaryLeft / Core.TILE_SIZE;
         int predictedTileRight = boundaryRight / Core.TILE_SIZE;

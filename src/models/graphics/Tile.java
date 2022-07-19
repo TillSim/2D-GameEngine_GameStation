@@ -48,7 +48,7 @@ public class Tile {
      * @return boolean
      */
     private boolean loadState(String tileSprite) {
-        return tileSprite.substring(3, 8).equals("_col_");
+        return tileSprite.substring(3, 6).equals("_C_");
     }
 
 }

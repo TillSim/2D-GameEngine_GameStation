@@ -19,11 +19,11 @@ General purpose of this endeavor is to test already learned concepts and experim
 - Dynamic animation based on the amount of imported sprites and movement / animation speed
 - Collision detection system
 - 3 different movement speeds
+- Camera control system (rpg-style fixed camera)
 
 
 
 ## Roadmap
-- Camera control system (rpg-style fixed camera)
 - Interactive in-game objects
 - Persistence (config / save files)
 - Inventory and in-game-menu system

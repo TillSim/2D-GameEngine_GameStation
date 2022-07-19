@@ -1,6 +1,7 @@
 ### IntelliJ IDEA ###
 out/
 .idea/
+design/
 log/GameStation.log
 res/META-INF/
 2D-GameEngine_GameStation.iml

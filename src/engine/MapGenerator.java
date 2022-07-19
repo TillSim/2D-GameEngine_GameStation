@@ -1,6 +1,7 @@
 package engine;
 
 
+import models.entities.Player;
 import utilities.Logger;
 import models.graphics.Tile;
 
@@ -20,15 +21,22 @@ public class MapGenerator {
     private static final MapGenerator SINGLETON = new MapGenerator();
 
     private static final String LIB_PATH = "res/map/tiles";
-    private static final String MAP_FILE = "res/map/001.map";
+    private static final String MAP_FILE = "res/map/island.map";
 
     public final ArrayList<Tile> TILE_LIB;
     public final int[][] TILE_MAP;
+    public final int columnAmount, rowAmount , worldWidth , worldHeight;
+
+    private final Player player = Player.getInstance();
 
 
     private MapGenerator() {
         this.TILE_LIB = loadTiles();
-        this.TILE_MAP = new int[Core.PANEL_COLUMNS][Core.PANEL_ROWS];
+        this.columnAmount = countMapColumns();
+        this.rowAmount = countMapRows();
+        this.TILE_MAP = new int[columnAmount][rowAmount];
+        this.worldWidth = columnAmount * Core.TILE_SIZE;
+        this.worldHeight = rowAmount * Core.TILE_SIZE;
 
         loadMap();
     }
@@ -69,16 +77,16 @@ public class MapGenerator {
             int column = 0;
             int row = 0;
 
-            while (column < Core.PANEL_COLUMNS && row < Core.PANEL_ROWS) {
+            while (column < columnAmount && row < rowAmount) {
                 String line = reader.readLine();
 
-                while (column < Core.PANEL_COLUMNS) {
+                while (column < columnAmount) {
                     String[] numbers = line.split(",");
                     int num = Integer.parseInt(numbers[column]);
                     TILE_MAP[column][row] = num;
                     column++;
                 }
-                if (column == Core.PANEL_COLUMNS) {
+                if (column == columnAmount) {
                     column = 0;
                     row++;
                 }
@@ -94,23 +102,58 @@ public class MapGenerator {
      * @param graphics2D Graphics2D
      */
     public void draw(Graphics2D graphics2D) {
-        int column = 0;
-        int row = 0;
-        int x = 0;
-        int y = 0;
+        int worldColumn = 0;
+        int worldRow = 0;
 
-        while (column < Core.PANEL_COLUMNS && row < Core.PANEL_ROWS) {
-            int tileIndex = TILE_MAP[column][row];
-            graphics2D.drawImage(this.TILE_LIB.get(tileIndex).spriteImage, x , y , Core.TILE_SIZE , Core.TILE_SIZE , null);
-            column++;
-            x += Core.TILE_SIZE;
+        while (worldColumn < columnAmount && worldRow < rowAmount) {
+            int tileIndex = TILE_MAP[worldColumn][worldRow];
 
-            if (column == Core.PANEL_COLUMNS) {
-                column = 0;
-                x = 0;
-                row++;
-                y += Core.TILE_SIZE;
+            //calculate tile's screen position
+            int worldX = worldColumn * Core.TILE_SIZE;
+            int worldY = worldRow * Core.TILE_SIZE;
+            int screenX = worldX - player.mapX + player.screenX;
+            int screenY = worldY - player.mapY + player.screenY;
+
+            graphics2D.drawImage(this.TILE_LIB.get(tileIndex).spriteImage, screenX , screenY , Core.TILE_SIZE , Core.TILE_SIZE , null);
+            worldColumn++;
+
+            if (worldColumn == columnAmount) {
+                worldColumn = 0;
+                worldRow++;
             }
+        }
+
+    }
+
+    /**
+     * counts columns in map file
+     * @return int
+     */
+    private int countMapColumns() {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(MAP_FILE));
+            String line = reader.readLine();
+            String[] columns = line.split(",");
+            reader.close();
+            return columns.length;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * counts rows in map file
+     * @return int
+     */
+    private int countMapRows() {
+        try {
+            int lines = 0;
+            BufferedReader reader = new BufferedReader(new FileReader(MAP_FILE));
+            while (reader.readLine() != null) lines++;
+            reader.close();
+            return lines;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
     }
