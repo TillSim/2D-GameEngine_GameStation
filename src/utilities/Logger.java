@@ -22,11 +22,14 @@ public abstract class Logger {
      */
     private static String createLogMSG(String logText) {
         Date date = new Date();
-
         String timestamp = DATE_FORMAT.format(date.getTime());
 
-        return "[" + timestamp + "]\t" + logText;
+        String[] lines = logText.split("\n");
+        StringBuilder logMSG = new StringBuilder("[" + timestamp + "]\t" + lines[0]);
 
+        if (lines.length > 1) for (int i = 1 ; i < lines.length ; i++) logMSG.append("\n\t\t\t").append(lines[i]);
+
+        return logMSG.toString();
     }
 
     /**
