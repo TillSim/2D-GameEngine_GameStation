@@ -15,6 +15,9 @@ public class InputHandler implements KeyListener {
 
     public boolean pressedUP,pressedDOWN,pressedLEFT,pressedRIGHT, pressedSHIFT, pressedCTRL;
 
+                //DEBUG
+                public boolean pressedF12;
+
 
     private InputHandler() {}
 
@@ -39,6 +42,9 @@ public class InputHandler implements KeyListener {
         //TOGGLE
         if (keyCode == KeyEvent.VK_SHIFT) pressedSHIFT = !pressedSHIFT && !pressedCTRL;
         if (keyCode == KeyEvent.VK_CONTROL) pressedCTRL = !pressedCTRL && !pressedSHIFT;
+
+                    //DEBUG
+                    if (keyCode == KeyEvent.VK_F12) pressedF12 = !pressedF12;
 
     }
 
