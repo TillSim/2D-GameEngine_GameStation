@@ -112,7 +112,14 @@ public class MapGenerator {
             int screenX = mapX - player.mapX + player.screenX;
             int screenY = mapY - player.mapY + player.screenY;
 
-            graphics2D.drawImage(this.tileLib.get(tileIndex).spriteImage, screenX , screenY , Core.TILE_SIZE , Core.TILE_SIZE , null);
+            //only draw tiles on screen position + 1 tile buffer
+            if (mapX + Core.TILE_SIZE > player.mapX - player.screenX &&
+                    mapX - Core.TILE_SIZE < player.mapX + player.screenX &&
+                    mapY + Core.TILE_SIZE > player.mapY - player.screenY &&
+                    mapY - Core.TILE_SIZE < player.mapY + player.screenY) {
+                graphics2D.drawImage(this.tileLib.get(tileIndex).spriteImage, screenX , screenY , Core.TILE_SIZE , Core.TILE_SIZE , null);
+            }
+
             column++;
 
             if (column == columnAmount) {
