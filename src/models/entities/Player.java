@@ -28,7 +28,7 @@ public class Player extends Entity {
         this.screenX = (Core.PANEL_WIDTH / 2) - (Core.TILE_SIZE / 2);
         this.screenY = (Core.PANEL_HEIGHT / 2) - (Core.TILE_SIZE / 2);
 
-        super.hitbox = new Rectangle(16 , 32 , 32 , 32);
+        super.hitbox = new Rectangle((Core.TILE_SIZE / 16) * 7 , (Core.TILE_SIZE / 4) * 3 , Core.TILE_SIZE / 8, (Core.TILE_SIZE / 16) * 3);
         this.movementSpeed = 2;
 
         this.direction = "down";
