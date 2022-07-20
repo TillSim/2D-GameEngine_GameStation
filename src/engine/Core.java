@@ -39,6 +39,7 @@ public class Core implements Runnable{
 
 
     private Core() {
+        Logger.toFile(getInitialParams());
         this.GAME_THREAD = new Thread(this);
         this.PANEL = GamePanel.getInstance();
         map = MapGenerator.getInstance();
@@ -84,6 +85,20 @@ public class Core implements Runnable{
         for (Entity entity : entities) {
             entity.update();
         }
+    }
+
+    /**
+     * creates String from initial parameters
+     * @return String
+     */
+    private String getInitialParams() {
+        return "Core-Version: " + VERSION +
+                "\n" +
+                "Aspect Ration: " + PANEL_COLUMNS + ":" + PANEL_ROWS +
+                "\n" +
+                "Resolution: " + PANEL_WIDTH + "x" + PANEL_HEIGHT + " (" + TILE_SIZE + "x" + TILE_SIZE + " Tiles)" +
+                "\n" +
+                "FPS: " + FPS;
     }
 
 
