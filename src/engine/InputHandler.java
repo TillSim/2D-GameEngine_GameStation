@@ -13,7 +13,7 @@ public class InputHandler implements KeyListener {
 
     private static final InputHandler SINGLETON = new InputHandler();
 
-    public boolean pressedUP,pressedDOWN,pressedLEFT,pressedRIGHT, pressedRUN , pressedSNEAK;
+    public boolean pressedUP,pressedDOWN,pressedLEFT,pressedRIGHT, pressedSHIFT, pressedCTRL;
 
 
     private InputHandler() {}
@@ -31,16 +31,14 @@ public class InputHandler implements KeyListener {
         int keyCode = e.getKeyCode();
 
         //HOLD
-        if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {pressedUP = true;}
-        if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {pressedDOWN = true;}
-        if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {pressedLEFT = true;}
-        if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {pressedRIGHT = true;}
+        if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) pressedUP = true;
+        if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) pressedDOWN = true;
+        if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) pressedLEFT = true;
+        if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) pressedRIGHT = true;
 
         //TOGGLE
-        if (keyCode == KeyEvent.VK_SHIFT) {
-            pressedRUN = !pressedRUN && !pressedSNEAK;}
-        if (keyCode == KeyEvent.VK_CONTROL) {
-            pressedSNEAK = !pressedSNEAK && !pressedRUN;}
+        if (keyCode == KeyEvent.VK_SHIFT) pressedSHIFT = !pressedSHIFT && !pressedCTRL;
+        if (keyCode == KeyEvent.VK_CONTROL) pressedCTRL = !pressedCTRL && !pressedSHIFT;
 
     }
 
@@ -48,10 +46,10 @@ public class InputHandler implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
 
-        if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {pressedUP = false;}
-        if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {pressedDOWN = false;}
-        if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {pressedLEFT = false;}
-        if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {pressedRIGHT = false;}
+        if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) pressedUP = false;
+        if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) pressedDOWN = false;
+        if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) pressedLEFT = false;
+        if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) pressedRIGHT = false;
 
     }
 

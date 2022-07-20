@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class Tile {
 
-    private static final String tileSpriteLib = "res/map/tiles/";
+    private static final String LIB_PATH = "res/map/tiles/";
     public BufferedImage spriteImage;
     public boolean isSolid;
 
@@ -34,7 +34,7 @@ public class Tile {
     private BufferedImage loadTile(String tileSprite) {
         BufferedImage tile;
         try {
-            tile = ImageIO.read(new File(tileSpriteLib + tileSprite));
+            tile = ImageIO.read(new File(LIB_PATH + tileSprite));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -48,7 +48,7 @@ public class Tile {
      * @return boolean
      */
     private boolean loadState(String tileSprite) {
-        return tileSprite.substring(3, 6).equals("_C_");
+        return tileSprite.startsWith("_C_", 3);
     }
 
 }

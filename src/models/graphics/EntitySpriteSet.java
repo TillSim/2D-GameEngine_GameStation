@@ -12,25 +12,25 @@ import java.util.ArrayList;
 
 
 /**
- * EntitySpriteSet is a container, that loads sprites for all directions.
+ * EntitySpriteSet is a container, that loads sprites for each direction.
  */
 public class EntitySpriteSet {
 
 
-    private static final String STRIPE_DIR = "res/img/sprites/";
+    private static final String SPRITESET_PATH = "res/img/sprites/";
 
-    public final ArrayList<BufferedImage> UP, DOWN, LEFT, RIGHT;
-    private final int SPRITE_AMOUNT;
-    private final String ENTITY_NAME;
+    public final ArrayList<BufferedImage> up, down, left, right;
+    private final int spriteAmount;
+    private final String entityName;
 
 
     public EntitySpriteSet(String entity) {
-        this.ENTITY_NAME = entity;
-        this.SPRITE_AMOUNT = countAvailableSprites();
-        this.UP = loadSpriteLib("up");
-        this.DOWN = loadSpriteLib("down");
-        this.LEFT = loadSpriteLib("left");
-        this.RIGHT = loadSpriteLib("right");
+        this.entityName = entity;
+        this.spriteAmount = countAvailableSprites();
+        this.up = loadSpriteLib("up");
+        this.down = loadSpriteLib("down");
+        this.left = loadSpriteLib("left");
+        this.right = loadSpriteLib("right");
     }
 
 
@@ -42,8 +42,8 @@ public class EntitySpriteSet {
     private ArrayList<BufferedImage> loadSpriteLib(String direction) {
         ArrayList<BufferedImage> sprites = new ArrayList<>();
 
-        for (int i = 0; i < SPRITE_AMOUNT; i++) {
-            String url = STRIPE_DIR + ENTITY_NAME + "/" + direction + "/" + direction + i + ".png";
+        for (int i = 0; i < spriteAmount; i++) {
+            String url = SPRITESET_PATH + entityName + "/" + direction + "/" + direction + i + ".png";
             Logger.toFile("SPRITE{" + url + "} loaded");
             try {
                 sprites.add(ImageIO.read(new File(url)));
@@ -67,10 +67,10 @@ public class EntitySpriteSet {
     public BufferedImage getSprite(String direction, int spriteIndex) {
 
         return switch (direction) {
-            case "up" -> UP.get(spriteIndex);
-            case "down" -> DOWN.get(spriteIndex);
-            case "left" -> LEFT.get(spriteIndex);
-            case "right" -> RIGHT.get(spriteIndex);
+            case "up" -> up.get(spriteIndex);
+            case "down" -> down.get(spriteIndex);
+            case "left" -> left.get(spriteIndex);
+            case "right" -> right.get(spriteIndex);
             default -> null;
         };
 
@@ -81,14 +81,14 @@ public class EntitySpriteSet {
      * @return int
      */
     private int countAvailableSprites() {
-        File tileFolder = new File(STRIPE_DIR + ENTITY_NAME + "/up");
+        File tileFolder = new File(SPRITESET_PATH + entityName + "/up");
         int counter = 0;
 
         for (File entry : tileFolder.listFiles()) {
             counter++;
         }
 
-        Logger.toFile(counter + " sprites found for ENTITY{" + ENTITY_NAME + "}");
+        Logger.toFile(counter + " sprites found for ENTITY{" + entityName + "}");
         return counter;
 
     }

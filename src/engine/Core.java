@@ -28,11 +28,11 @@ public class Core implements Runnable{
     public static final int PANEL_HEIGHT = TILE_SIZE * PANEL_ROWS;
     public static final int FPS = 60;
 
-    public static final int PLAYER_START_X = TILE_SIZE * 50;
-    public static final int PLAYER_START_Y = TILE_SIZE * 50;
+    public static final int PLAYER_START_TILE_X = TILE_SIZE * 50;
+    public static final int PLAYER_START_TILE_Y = TILE_SIZE * 50;
 
-    private final Thread GAME_THREAD;
-    private final GamePanel PANEL;
+    private final Thread gameThread;
+    private final GamePanel panel;
 
     public static MapGenerator map;
     public ArrayList<Entity> entities = new ArrayList<>();
@@ -40,8 +40,8 @@ public class Core implements Runnable{
 
     private Core() {
         Logger.toFile(getInitialParams());
-        this.GAME_THREAD = new Thread(this);
-        this.PANEL = GamePanel.getInstance();
+        this.gameThread = new Thread(this);
+        this.panel = GamePanel.getInstance();
         map = MapGenerator.getInstance();
         this.entities.add(Player.getInstance());
         Logger.toFile("core loaded");
@@ -55,16 +55,13 @@ public class Core implements Runnable{
      */
     @Override
     public void run() {
-        long currentTime = System.nanoTime();
-        double tickRate = 1e+9 / Core.FPS;
-        double nextTick = currentTime + tickRate;
+        long tickRate = 1000 / FPS;
 
-        while (GAME_THREAD != null) {
+        while (gameThread != null) {
             update();
-            PANEL.repaint();
+            panel.repaint();
             try {
-                Thread.sleep((long) ((nextTick - System.nanoTime()) / 1e+6));
-                nextTick += tickRate;
+                Thread.sleep(tickRate);
             } catch (InterruptedException e) {
                 Logger.toFile("game thread interrupted");
                 throw new RuntimeException(e);
@@ -73,7 +70,7 @@ public class Core implements Runnable{
     }
 
     public void startGameThread() {
-        GAME_THREAD.start();
+        gameThread.start();
         Logger.toFile("game thread started");
     }
 

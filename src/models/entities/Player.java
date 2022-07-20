@@ -23,17 +23,20 @@ public class Player extends Entity {
 
 
     private Player() {
-        super.mapX = Core.PLAYER_START_X;
-        super.mapY = Core.PLAYER_START_Y;
-        super.hitbox = new Rectangle(16 , 32 , 32 , 32);
+        super.mapX = Core.PLAYER_START_TILE_X;
+        super.mapY = Core.PLAYER_START_TILE_Y;
         this.screenX = (Core.PANEL_WIDTH / 2) - (Core.TILE_SIZE / 2);
         this.screenY = (Core.PANEL_HEIGHT / 2) - (Core.TILE_SIZE / 2);
+
+        super.hitbox = new Rectangle(16 , 32 , 32 , 32);
         this.movementSpeed = 2;
+
         this.direction = "down";
         this.spriteAmount = 9;
         this.currentSprite = 0;
         this.animationSpeed = 1;
         this.spriteSet = new EntitySpriteSet("player");
+
         this.inputHandler = InputHandler.getInstance();
     }
 
@@ -45,9 +48,10 @@ public class Player extends Entity {
     /**
      * calculates player movement and animation
      */
-    //TODO implement idle animation
+    //TODO implement idle animation + add running sprites
     @Override
     public void update() {
+        //assume player is not colliding
         isColliding = false;
 
         //continue animation only when moving
@@ -57,9 +61,9 @@ public class Player extends Entity {
                 || inputHandler.pressedRIGHT) {
 
             //change moving and animation speed
-            if (inputHandler.pressedRUN) {
+            if (inputHandler.pressedSHIFT) {
                 movementSpeed = 3;
-            } else if (inputHandler.pressedSNEAK) {
+            } else if (inputHandler.pressedCTRL) {
                 movementSpeed = 1;
             } else {
                 movementSpeed = 2;
@@ -100,8 +104,7 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
 
-        } else {
-            currentSprite = 0;}
+        } else currentSprite = 0;
 
     }
 

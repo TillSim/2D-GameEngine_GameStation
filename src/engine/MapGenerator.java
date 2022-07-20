@@ -23,20 +23,18 @@ public class MapGenerator {
     private static final String LIB_PATH = "res/map/tiles";
     private static final String MAP_FILE = "res/map/island.map";
 
-    public final ArrayList<Tile> TILE_LIB;
-    public final int[][] TILE_MAP;
-    public final int columnAmount, rowAmount , worldWidth , worldHeight;
+    public final ArrayList<Tile> tileLib;
+    public final int[][] tileMap;
+    public final int columnAmount, rowAmount;
 
     private final Player player = Player.getInstance();
 
 
     private MapGenerator() {
-        this.TILE_LIB = loadTiles();
+        this.tileLib = loadTiles();
         this.columnAmount = countMapColumns();
         this.rowAmount = countMapRows();
-        this.TILE_MAP = new int[columnAmount][rowAmount];
-        this.worldWidth = columnAmount * Core.TILE_SIZE;
-        this.worldHeight = rowAmount * Core.TILE_SIZE;
+        this.tileMap = new int[columnAmount][rowAmount];
 
         loadMap();
     }
@@ -54,7 +52,7 @@ public class MapGenerator {
         ArrayList<Tile> tiles = new ArrayList<>();
         File tileFolder = new File(LIB_PATH);
 
-        //get all available file paths
+        //get all available tile files in tile directory
         if (tileFolder.listFiles() != null) {
             for (File entry : tileFolder.listFiles()) {
                 tiles.add(new Tile(entry.getName()));
@@ -83,7 +81,7 @@ public class MapGenerator {
                 while (column < columnAmount) {
                     String[] numbers = line.split(",");
                     int num = Integer.parseInt(numbers[column]);
-                    TILE_MAP[column][row] = num;
+                    tileMap[column][row] = num;
                     column++;
                 }
                 if (column == columnAmount) {
@@ -102,24 +100,24 @@ public class MapGenerator {
      * @param graphics2D Graphics2D
      */
     public void draw(Graphics2D graphics2D) {
-        int worldColumn = 0;
-        int worldRow = 0;
+        int column = 0;
+        int row = 0;
 
-        while (worldColumn < columnAmount && worldRow < rowAmount) {
-            int tileIndex = TILE_MAP[worldColumn][worldRow];
+        while (column < columnAmount && row < rowAmount) {
+            int tileIndex = tileMap[column][row];
 
             //calculate tile's screen position
-            int worldX = worldColumn * Core.TILE_SIZE;
-            int worldY = worldRow * Core.TILE_SIZE;
-            int screenX = worldX - player.mapX + player.screenX;
-            int screenY = worldY - player.mapY + player.screenY;
+            int mapX = column * Core.TILE_SIZE;
+            int mapY = row * Core.TILE_SIZE;
+            int screenX = mapX - player.mapX + player.screenX;
+            int screenY = mapY - player.mapY + player.screenY;
 
-            graphics2D.drawImage(this.TILE_LIB.get(tileIndex).spriteImage, screenX , screenY , Core.TILE_SIZE , Core.TILE_SIZE , null);
-            worldColumn++;
+            graphics2D.drawImage(this.tileLib.get(tileIndex).spriteImage, screenX , screenY , Core.TILE_SIZE , Core.TILE_SIZE , null);
+            column++;
 
-            if (worldColumn == columnAmount) {
-                worldColumn = 0;
-                worldRow++;
+            if (column == columnAmount) {
+                column = 0;
+                row++;
             }
         }
 

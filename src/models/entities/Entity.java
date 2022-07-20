@@ -25,12 +25,12 @@ public abstract class Entity {
 
 
     /**
-     * controls HOWTO change entity at runtime
+     * controls change of entity atributes at runtime
      */
     public abstract void update();
 
     /**
-     * controls HOWTO draw entity on panel
+     * controls drawing of entity on panel
      * @param graphics2D Graphics2D
      */
     public abstract void draw(Graphics2D graphics2D);
