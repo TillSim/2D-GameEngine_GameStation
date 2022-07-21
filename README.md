@@ -30,7 +30,6 @@ General purpose of this endeavor is to test already learned concepts and experim
 - HUD
 - Sound handling
 - NPC and combat system
-- Rendering performance optimization
 
 
 ---
@@ -39,6 +38,9 @@ General purpose of this endeavor is to test already learned concepts and experim
 >Toggle sneaking: **CTRL**
 
 >Toggle running: **SHIFT**
+
+>Toggle debug: **F12**
+ 
 ---
 
 
