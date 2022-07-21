@@ -19,7 +19,7 @@ public class Core implements Runnable{
 
     private static final Core SINGLETON = new Core();
 
-    public static final String VERSION = "v0.2.0";
+    public static final String VERSION = "v0.2.1";
 
     public static final int TILE_SIZE = 64;
     public final static int PANEL_COLUMNS = 16;
